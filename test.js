@@ -71,3 +71,23 @@ test('invalid emails', t => {
 	t.is(fn('example@email.com '), false);
 });
 
+// This should take a fraction of a second, not 10 seconds.
+test('REDOS', t => {
+	// Prepare attack string.
+	const pump = "\\\\a\\\\\\a";
+	let attackString = '';
+	for (let i = 0; i < 9; i++) {
+		attackString += pump;
+	}
+	attackString += '\v';
+
+	const badEmail = `${attackString}@gmail.com`;
+
+	// Make a number of failed calls. This shouldn't take too long.
+	const start = process.hrtime();
+	for (let i = 0; i < 20; i++) {
+		t.is(fn(badEmail), false);
+	}
+	const end = process.hrtime(start);
+	t.true(end[0] < 1, 'REDOS');
+});
