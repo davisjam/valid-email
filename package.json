@@ -25,5 +25,14 @@
   ],
   "engines": {
     "node": ">=0.10.0"
+  },
+  "devDependencies": {
+    "ava": "^0.14.0",
+    "xo": "^0.14.0"
+  },
+  "xo": {
+    "rules": {
+      "no-useless-escape": 0
+    }
   }
 }
